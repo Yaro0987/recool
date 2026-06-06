@@ -130,7 +130,7 @@ RecoolApp.setMetaTag = function(name, content) {
   var el = document.querySelector(sel);
   if (!el) { el = document.createElement('meta'); el.setAttribute(attr, name); document.head.appendChild(el); }
   el.setAttribute('content', content);
-};
+}; 
 
 RecoolApp.setCanonical = function(href) {
   var el = document.querySelector('link[rel="canonical"]');
