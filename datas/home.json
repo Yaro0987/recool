@@ -1,0 +1,35 @@
+{
+"slides": [
+  { "image": "imgs/slides/shoe 1.png", "brand": "Nike",         "badge": "Sleek",          "title": "AIR MAX",    "subtitle": "DN",            "desc": "Sleek black sneaker with white swoosh, neon JUST DO IT. text, and Tuned Air cushioning units.",                                "price": "$200", "feature": "Tuned Air cushioning" },
+  { "image": "imgs/slides/8.png",      "brand": "Timberland",   "badge": "Rugged",         "title": "6-INCH",     "subtitle": "Premium",       "desc": "Rugged outdoor boots with olive-green mesh and leather, black traction outsole, and Timberland logo details.",                "price": "$210", "feature": "Waterproof membrane" },
+  { "image": "imgs/slides/9.png",      "brand": "Louis Vuitton","badge": "Luxury",         "title": "TRAINER",    "subtitle": "LV",            "desc": "Luxury low-top sneakers with white perforated leather, green overlays, LV monogram strap, and branded tag.",                   "price": "$890", "feature": "Leather upper" },
+  { "image": "imgs/slides/shoe 2.png", "brand": "Adidas",       "badge": "Iconic",         "title": "ULTRABOOST", "subtitle": "5X",            "desc": "Iconic white Boost midsole sneaker with grey knit upper and signature three-stripe branding.",                                "price": "$190", "feature": "Boost midsole cushioning" },
+  { "image": "imgs/slides/shoe 3.png", "brand": "New Balance",  "badge": "Classic",        "title": "990V6",      "subtitle": "Made in USA",    "desc": "Classic grey mesh and suede running silhouette with ENCAP midsole and premium pigskin overlays.",                              "price": "$185", "feature": "ENCAP midsole technology" },
+  { "image": "imgs/slides/shoe 4.png", "brand": "Puma",         "badge": "Bold",           "title": "RS-X3",      "subtitle": "Remix",          "desc": "Bold chunky sneaker with layered mesh, textile panelling, and disruptive RS cushioning for street-ready style.",                "price": "$120", "feature": "RS foam cushioning" },
+  { "image": "imgs/slides/shoe 5.png", "brand": "Jordan",       "badge": "Legendary",      "title": "RETRO 4",    "subtitle": "Military Black",  "desc": "Legendary black and white tumbled leather silhouette with mesh paneling and visible Air-Sole unit in the heel.",               "price": "$220", "feature": "Air-Sole heel unit" },
+  { "image": "imgs/slides/shoe 6.png", "brand": "Yeezy",        "badge": "Hype",           "title": "FOAM RNNR",  "subtitle": "MX Sand Grey",    "desc": "Hype moulded foam clog with organic swirl pattern, lightweight build, and dual-density cushioning for all-day wear.",         "price": "$90",  "feature": "Dual-density foam" },
+  { "image": "imgs/slides/11.png",     "brand": "Converse",     "badge": "Timeless",       "title": "CHUCK 70",   "subtitle": "High Top",       "desc": "Timeless high-top canvas sneakers with vintage-inspired details, OrthoLite insole, and signature star ankle patch.",           "price": "$110", "feature": "OrthoLite cushioning" }
+],
+  "featured": [
+    { "pid": 0, "image": "imgs/products/IMG-20260605-WA0020.jpg", "brand": "Nike",       "name": "Air Max Pulse" },
+    { "pid": 1, "image": "imgs/products/IMG-20260605-WA0025.jpg", "brand": "Adidas",     "name": "Ultraboost 5X" },
+    { "pid": 2, "image": "imgs/products/IMG-20260605-WA0033.jpg", "brand": "New Balance","name": "990v6" },
+    { "pid": 3, "image": "imgs/products/IMG-20260605-WA0037.jpg", "brand": "Puma",       "name": "RS-X3 Remix" }
+  ],
+  "services": [
+    { "icon": "ruler",    "title": "Perfect Fit",      "desc": "Free custom sizing consultation to find your ideal match." },
+    { "icon": "palette",  "title": "Personal Style",   "desc": "One-on-one styling sessions curated to your taste." },
+    { "icon": "star",     "title": "VIP Access",       "desc": "Early access to limited drops and member-only releases." },
+    { "icon": "truck",    "title": "Free Shipping",    "desc": "Complimentary shipping & hassle-free 30-day returns." }
+  ],
+  "testimonials": [
+    { "name": "Alex M.", "role": "Designer", "text": "The most comfortable sneakers I've ever owned. Every step feels like walking on clouds. The quality is unmatched.", "rating": 5 },
+    { "name": "Sam K.", "role": "Athlete", "text": "I put these through hell during training and they still look brand new. Recool durability is no joke.", "rating": 5 },
+    { "name": "Jordan P.", "role": "Collector", "text": "Been collecting sneakers for 15 years. Recool's designs are fresh, bold, and turning heads everywhere.", "rating": 4 },
+    { "name": "Taylor R.", "role": "Fashion Blogger", "text": "The attention to detail is incredible. These sneakers go with every outfit and get compliments everywhere I go.", "rating": 5 },
+    { "name": "Morgan L.", "role": "Personal Trainer", "text": "I'm on my feet 12 hours a day and these are the only shoes that keep my feet happy. Worth every penny.", "rating": 5 },
+    { "name": "Casey W.", "role": "Streetwear Enthusiast", "text": "Recool is killing the game right now. The collabs are fire and the quality beats any big brand out there.", "rating": 5 },
+    { "name": "Riley H.", "role": "Store Owner", "text": "We stock Recool in our boutique and they sell out every time. Customers keep coming back for more.", "rating": 4 },
+    { "name": "Jamie N.", "role": "Pro Skater", "text": "Tough, flexible, and great grip. These hold up to serious skateboarding abuse. Highly recommend.", "rating": 5 }
+  ]
+}

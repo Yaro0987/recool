@@ -1,0 +1,46 @@
+{
+  "brand": "Recool",
+  "tagline": "Premium footwear for the bold &amp; the restless",
+  "email": "info@recool.com",
+  "phone": "+1 (555) 123-4567",
+  "address": "123 Style Street, New York, NY 10001",
+  "social": [
+    { "name": "Instagram", "url": "https://instagram.com/recool", "icon": "instagram" },
+    { "name": "Twitter", "url": "https://twitter.com/recool", "icon": "twitter" },
+    { "name": "YouTube", "url": "https://youtube.com/@recool", "icon": "youtube" },
+    { "name": "TikTok", "url": "https://tiktok.com/@recool", "icon": "tiktok" },
+    { "name": "Facebook", "url": "https://facebook.com/recool", "icon": "facebook" },
+    { "name": "whatsapp", "url": "https://wa.me/2348077765366", "icon": "whatsapp" }
+  ],
+  "nav": [
+    { "label": "Home", "url": "index.html" },
+    { "label": "Collections", "url": "gallery.html" },
+    { "label": "About", "url": "about.html" },
+    { "label": "Contact", "url": "contact.html" }
+  ],
+  "header": {
+    "logo": "imgs/general/logo-black.png",
+    "cta": { "label": "Request", "action": "contact.html" }
+  },
+  "footer": {
+    "description": "Recool is a premium footwear brand blending contemporary design with uncompromising comfort. Every pair tells a story.",
+    "quote": "\"Style is a way to say who you are without having to speak.\"",
+    "logo": "imgs/general/logo-white.png",
+    "quickLinks": [
+      { "label": "Collections", "url": "gallery.html" },
+      { "label": "About", "url": "about.html" },
+      { "label": "Contact", "url": "contact.html" }
+    ],
+    "support": [
+      { "label": "FAQ", "url": "faq.html" },
+      { "label": "Shipping", "url": "shipping.html" },
+      { "label": "Returns", "url": "returns.html" },
+      { "label": "Size Guide", "url": "size-guide.html" }
+    ],
+    "contact": {
+      "email": "info@recool.com",
+      "phone": "+1 (555) 123-4567",
+      "address": "123 Style Street, New York, NY 10001"
+    }
+  }
+}

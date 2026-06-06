@@ -1,0 +1,17 @@
+{
+  "pageTitle": "Get in Touch",
+  "heading": "We'd love to hear from you",
+  "subtitle": "Have a question, feedback, or just want to say hi? Drop us a message and we'll get back to you.",
+  "infoItems": [
+    { "icon": "location", "label": "Visit Us", "value": "123 Style Street, New York, NY 10001" },
+    { "icon": "email", "label": "Email Us", "value": "info@recool.com" },
+    { "icon": "phone", "label": "Call Us", "value": "+1 (555) 123-4567" }
+  ],
+  "mapUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.9147701124!2d-74.11976255435035!3d40.69740344225906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY!5e0!3m2!1sen!2sus!4v1",
+  "formFields": [
+    { "label": "Full Name", "type": "text", "placeholder": "John Doe", "required": true },
+    { "label": "Email Address", "type": "email", "placeholder": "john@example.com", "required": true },
+    { "label": "Subject", "type": "text", "placeholder": "How can we help?", "required": false },
+    { "label": "Message", "type": "textarea", "placeholder": "Tell us more...", "required": true }
+  ]
+}

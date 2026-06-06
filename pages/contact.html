@@ -1,0 +1,18 @@
+<div class="page-wrap">
+  <div class="page-title" id="contactPageTitle"></div>
+  <div class="contact-layout">
+    <div class="contact-info">
+      <h3 id="contactHeading"></h3>
+      <p class="sub" id="contactSub"></p>
+      <div id="contactInfoItems"></div>
+      <div class="social-links" id="contactSocial"></div>
+    </div>
+    <form class="contact-form" id="contactForm" onsubmit="event.preventDefault();this.querySelector('.submit-btn').textContent='Sent!';">
+      <div id="contactFormFields"></div>
+      <button class="submit-btn">Send Message</button>
+    </form>
+  </div>
+  <div class="map-wrap">
+    <iframe id="contactMap" src="" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "pageTitle": "Shipping Information",
+  "sections": [
+    { "title": "Shipping Rates", "body": "We offer free standard shipping on all orders over $150 within the continental US. Standard shipping is $8.99 for orders under $150. Express shipping starts at $14.99." },
+    { "title": "Delivery Times", "body": "Standard: 5-8 business days. Express: 2-3 business days. International: 10-14 business days. Delivery times are estimates and may vary during peak seasons or due to customs processing." },
+    { "title": "Order Processing", "body": "Orders are processed within 1-2 business days. You'll receive a confirmation email once your order ships, along with a tracking number." },
+    { "title": "Tracking Your Order", "body": "Once shipped, you'll receive a tracking link via email. You can also check your order status in your account dashboard." },
+    { "title": "International Shipping", "body": "We ship to 50+ countries. Duties and taxes are calculated at checkout and are the responsibility of the customer. Delivery times vary by destination." },
+    { "title": "Shipping Restrictions", "body": "We currently do not ship to PO boxes or APO/FPO addresses. Some oversized items may have additional shipping surcharges." }
+  ]
+}

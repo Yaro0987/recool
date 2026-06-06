@@ -1,0 +1,10 @@
+{
+  "pageTitle": "Returns &amp; Exchanges",
+  "sections": [
+    { "title": "Return Policy", "body": "We accept returns within 30 days of delivery. Items must be unworn, unwashed, and in their original packaging with all tags attached. Footwear must be tried on indoors only." },
+    { "title": "How to Return", "body": "Initiate a return through your account dashboard or contact our support team. We'll provide a prepaid return label. Drop your package at any authorized shipping location." },
+    { "title": "Refunds", "body": "Refunds are processed within 5-7 business days after we receive your return. The amount will be credited to your original payment method. You'll receive an email confirmation." },
+    { "title": "Exchanges", "body": "Exchanges are processed as a return and new purchase for fastest service. Place a new order for the desired item and return the original for a full refund." },
+    { "title": "Non-Returnable Items", "body": "Final sale items, gift cards, and accessories (socks, laces, care kits) cannot be returned. Please inspect your order upon delivery." }
+  ]
+}

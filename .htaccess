@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Redirect old .html page URLs to clean paths
+RewriteRule ^about\.html$ about [NE,R=301,L]
+RewriteRule ^gallery\.html$ collections [NE,R=301,L]
+RewriteRule ^compare\.html$ compare [NE,R=301,L]
+RewriteRule ^contact\.html$ contact [NE,R=301,L]
+RewriteRule ^faq\.html$ faq [NE,R=301,L]
+RewriteRule ^shipping\.html$ shipping [NE,R=301,L]
+RewriteRule ^returns\.html$ returns [NE,R=301,L]
+RewriteRule ^size-guide\.html$ size-guide [NE,R=301,L]
+
+# SPA fallback: serve index.html for any non-file/non-dir request
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]

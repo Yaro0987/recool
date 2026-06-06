@@ -1,0 +1,35 @@
+{
+  "hero": {
+    "tag": "Our Story",
+    "title": "Built for the<br />bold &amp; the restless",
+    "paragraphs": [
+      "Recool was born from a simple belief: footwear should move with you, not against you. Every silhouette is engineered with precision, crafted with intention, and designed for those who refuse to stand still.",
+      "From the streets to the summit, we make every step count. Our commitment to quality, comfort, and cutting-edge design drives everything we do — from material selection to the final stitch.",
+      "We don't just make shoes. We build confidence, one pair at a time."
+    ],
+    "image": "imgs/shop/shop-front.jpg"
+  },
+  "values": [
+    { "title": "Quality First", "desc": "Every material is hand-picked and tested for durability, comfort, and performance before it ever reaches your feet." },
+    { "title": "Bold Design", "desc": "We push boundaries with every collection, blending contemporary aesthetics with timeless silhouettes that stand out." },
+    { "title": "Sustainability", "desc": "From recycled packaging to responsible sourcing, we're committed to reducing our footprint while maximizing your comfort." }
+  ],
+  "team": [
+    { "name": "Alex Chen", "role": "Founder & CEO", "bg": "#e8e8e8" },
+    { "name": "Maya Torres", "role": "Head of Design", "bg": "#ddd" },
+    { "name": "James Park", "role": "Lead Engineer", "bg": "#e0e0e0" },
+    { "name": "Sarah Kim", "role": "Marketing Director", "bg": "#e5e5e5" }
+  ],
+  "milestones": [
+    { "year": "2020", "title": "Founded in NYC", "desc": "Recool was born in a small studio in Brooklyn with a big dream." },
+    { "year": "2022", "title": "First Collection", "desc": "Launched our debut line of 12 silhouettes to critical acclaim." },
+    { "year": "2024", "title": "Global Reach", "desc": "Expanded to 30+ countries with a growing community of loyal customers." },
+    { "year": "2026", "title": "Innovation Lab", "desc": "Opened our R&amp;D lab dedicated to sustainable materials and next-gen comfort." }
+  ],
+  "cta": {
+    "title": "Ready to step into something better?",
+    "desc": "Explore our latest collection and find your perfect fit.",
+    "button": "Shop Now",
+    "link": "collections"
+  }
+}

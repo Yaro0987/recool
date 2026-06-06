@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recool — Premium Footwear</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter','Helvetica Neue',sans-serif; overflow-x: hidden; background: #F8F8F8; color: #111; -webkit-font-smoothing: antialiased; }
+
+/* Loader */
+#loader { position:fixed; inset:0; z-index:9999; background:#F8F8F8; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.5s,visibility 0.5s; }
+#loader.hidden { opacity:0; visibility:hidden; }
+#loader .loader-logo { height:52px; width:auto; animation:heartbeat 1.2s ease-in-out infinite; }
+#loader .loader-ring { position:absolute; width:80px; height:80px; border:2px solid #e0e0e0; border-top-color:#111; border-radius:50%; animation:spin 0.8s linear infinite, pulseRing 1.2s ease-in-out infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+@keyframes heartbeat { 0%,100% { transform:scale(1); opacity:0.7; } 50% { transform:scale(1.15); opacity:1; } }
+@keyframes pulseRing { 0%,100% { transform:rotate(0deg) scale(1); } 50% { transform:rotate(180deg) scale(1.1); } }
+#loader .loader-wrap { position:relative; display:flex; align-items:center; justify-content:center; }
+
+/* Header */
+.header { background-color:white; padding:10px; border-radius:50px; position:fixed; top:8px; left:44px; right:44px; z-index:50; display:flex; align-items:center; justify-content:space-between; box-shadow:0 2px 12px rgba(0,0,0,0.04); }
+.header-left .logo-img { height:40px; width:auto; display:block; cursor:pointer; }
+.header-center { display:flex; align-items:center; gap:28px; padding:0 20px; }
+.header-center a { color:#777; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:0.8px; text-transform:uppercase; transition:color 0.2s; white-space:nowrap; }
+.header-center a:hover, .header-center a.active { color:#111; }
+.header-center a.active { font-weight:700; }
+.header-right .request-btn { padding:8px 24px; border:1px solid #111; background:#111; color:#fff; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border-radius:100px; transition:all 0.3s; }
+.header-right .request-btn:hover { background:#333; border-color:#333; }
+
+/* Mobile Nav */
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; z-index:60; background:none; border:none; padding:8px; border-radius:8px; }
+.hamburger span { display:block; width:22px; height:2px; background:#111; border-radius:2px; transition:transform 0.3s,opacity 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { position:fixed; top:0; left:0; bottom:0; z-index:55; width:300px; max-width:80vw; background:#fff; padding:100px 36px 40px; transform:translateX(-100%); transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94); overflow-y:auto; }
+.mobile-menu.open { transform:translateX(0); }
+.mobile-menu a { display:block; font-size:16px; font-weight:500; color:#333; text-decoration:none; padding:14px 0; border-bottom:1px solid #f0f0f0; transition:color 0.2s; }
+.mobile-menu a:hover { color:#111; }
+.mobile-menu .request-link { margin-top:20px; padding:14px 28px; border:1px solid #111; background:#111; color:#fff; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border-radius:100px; text-align:center; text-decoration:none; transition:background 0.3s; }
+.mobile-menu .request-link:hover { background:#333; }
+.menu-overlay { position:fixed; inset:0; z-index:54; background:rgba(0,0,0,0.3); visibility:hidden; opacity:0; transition:opacity 0.3s,visibility 0.3s; }
+.menu-overlay.open { visibility:visible; opacity:1; }
+
+/* Request Popup */
+.popup-overlay { position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.3); visibility:hidden; opacity:0; transition:opacity 0.3s,visibility 0.3s; }
+.popup-overlay.open { visibility:visible; opacity:1; }
+.popup-panel { position:fixed; top:0; left:0; bottom:0; z-index:101; width:480px; max-width:90vw; background:#fff; padding:56px 44px; transform:translateX(-100%); transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94); overflow-y:auto; }
+.popup-panel.open { transform:translateX(0); }
+.popup-panel .close-btn { position:absolute; top:20px; right:24px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; transition:color 0.2s; }
+.popup-panel .close-btn:hover { color:#111; }
+.popup-panel h2 { font-size:28px; font-weight:700; margin-bottom:8px; }
+.popup-panel .sub { font-size:14px; color:#999; margin-bottom:32px; line-height:1.6; }
+.popup-panel .form-group { margin-bottom:20px; }
+.popup-panel .form-group label { display:block; font-size:11px; font-weight:600; color:#777; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.popup-panel .form-group input, .popup-panel .form-group textarea { width:100%; padding:12px 16px; border:1px solid #E0E0E0; font-size:14px; font-family:inherit; background:#F8F8F8; transition:border 0.2s; outline:none; }
+.popup-panel .form-group input:focus, .popup-panel .form-group textarea:focus { border-color:#111; }
+.popup-panel .form-group textarea { height:100px; resize:vertical; }
+.popup-panel .submit-btn { width:100%; padding:14px; border:none; background:#111; color:#fff; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:background 0.3s; }
+.popup-panel .submit-btn:hover { background:#333; }
+
+/* Footer */
+footer { position:relative; z-index:10; background:#111; color:#ccc; padding:80px 44px 0; }
+.footer-inner { max-width:1200px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr 1.5fr; gap:40px; }
+.footer-col h4 { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#fff; margin-bottom:20px; }
+.footer-col p { font-size:13px; line-height:1.7; color:#888; }
+.footer-quote { font-style:italic; color:#777; font-size:13px; margin:12px 0 4px; }
+.footer-col a { display:block; font-size:13px; color:#888; text-decoration:none; margin-bottom:10px; transition:color 0.2s; }
+.footer-col a:hover { color:#fff; }
+.footer-col .logo-foot { height:50px; width:auto; margin-bottom:16px; }
+.footer-social { display:flex; gap:12px; margin-top:16px; }
+.footer-social a { width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; transition:background 0.2s; margin-bottom:0; }
+.footer-social a:hover { background:rgba(255,255,255,0.15); }
+.footer-social a svg { width:16px; height:16px; fill:#999; }
+.footer-social a:hover svg { fill:#fff; }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.06); margin-top:60px; padding:24px 0; text-align:center; }
+.footer-bottom p { font-size:12px; color:#555; }
+
+/* Page content */
+#pageContent { min-height:100vh; }
+
+.hero-stage { position:fixed; inset:0; z-index:1; display:flex; align-items:center; justify-content:center; }
+.hero-image-wrap { position:relative; z-index:2; width:380px; height:380px; display:flex; align-items:center; justify-content:center; }
+.hero-image-wrap img { width:auto; height:100%; max-width:100%; object-fit:contain; filter:drop-shadow(0 20px 60px rgba(0,0,0,0.08)); }
+.hero-ring { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:520px; height:520px; border-radius:50%; border:1.5px solid rgba(0,0,0,0.07); animation:heroSpin 24s linear infinite; pointer-events:none; }
+.hero-ring::before { content:''; position:absolute; inset:-10px; border-radius:50%; border:1px solid rgba(0,0,0,0.03); }
+.hero-ring-outer { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:640px; height:640px; border-radius:50%; border:1px solid rgba(0,0,0,0.04); animation:heroSpinRev 30s linear infinite; pointer-events:none; }
+.hero-ring-glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:460px; height:460px; border-radius:50%; background:radial-gradient(circle,rgba(0,0,0,0.02) 0%,transparent 70%); pointer-events:none; z-index:0; }
+@keyframes heroSpin { to { transform:translate(-50%,-50%) rotate(360deg); } }
+@keyframes heroSpinRev { to { transform:translate(-50%,-50%) rotate(-360deg); } }
+
+/* Hero */
+.hero-text { position:fixed; bottom:56px; left:44px; z-index:5; }
+.hero-text .brand { font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#111; margin-bottom:6px; }
+.hero-text .badge { display:inline-block; padding:5px 14px; border:1px solid #E0E0E0; border-radius:100px; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#999; font-weight:500; margin-bottom:14px; }
+.hero-text .feature { font-size:12px; color:#888; margin-top:8px; font-weight:400; letter-spacing:0.3px; }
+.hero-text h1 { font-size:clamp(44px,6vw,80px); font-weight:900; line-height:0.92; letter-spacing:-2px; }
+.hero-text h1 .light { font-weight:300; color:#CCC; letter-spacing:-0.5px; }
+.hero-text p { font-size:14px; color:#999; margin-top:12px; font-weight:300; }
+.scroll-down { position:fixed; bottom:28px; left:50%; transform:translateX(-50%); z-index:10; display:flex; flex-direction:column; align-items:center; gap:6px; color:#888; font-size:9px; letter-spacing:2px; text-transform:uppercase; font-weight:600; animation:floatDown 2.4s ease-in-out infinite; }
+.scroll-down .line { width:1px; height:24px; background:linear-gradient(to bottom,#888,transparent); }
+@keyframes floatDown { 0%,100% { opacity:0.5; transform:translateX(-50%) translateY(0); } 50% { opacity:1; transform:translateX(-50%) translateY(-4px); } }
+.hero-spacer { height:100vh; }
+
+/* Sections */
+.section { position:relative; z-index:10; background:#F8F8F8; padding:100px 44px; }
+.section:nth-child(even) { background:#fff; }
+.section-inner { max-width:1200px; margin:0 auto; }
+.section h2 { font-size:36px; font-weight:800; letter-spacing:-1px; margin-bottom:12px; }
+.section .subtitle { font-size:14px; color:#999; font-weight:300; margin-bottom:50px; max-width:500px; }
+
+.featured-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px; }
+.featured-grid .item { background:#fff; border-radius:12px; overflow:hidden; border:1px solid #eee; cursor:pointer; transition:transform 0.3s,box-shadow 0.3s; }
+.featured-grid .item:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.06); }
+.featured-grid .item .img-wrap { position:relative; width:100%; aspect-ratio:1; overflow:hidden; background:#f5f5f5; }
+.featured-grid .item .img-wrap img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.3s; }
+.featured-grid .item:hover .img-wrap img { transform:scale(1.05); }
+.featured-grid .item .overlay { position:absolute; inset:0; background:rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; gap:12px; opacity:0; transition:opacity 0.3s; }
+.featured-grid .item:hover .overlay { opacity:1; }
+.featured-grid .item .overlay .icon-btn { width:40px; height:40px; border-radius:50%; background:#fff; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.2s,background 0.2s; color:#333; text-decoration:none; }
+.featured-grid .item .overlay .icon-btn:hover { transform:scale(1.1); background:#111; color:#fff; }
+.featured-grid .item .info { padding:12px 16px; }
+.featured-grid .item .info .brand { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:#999; margin-bottom:2px; }
+.featured-grid .item .info .name { font-size:14px; font-weight:600; }
+
+.services-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.service-card { background:#fff; border-radius:16px; padding:32px 24px; border:1px solid #eee; text-align:center; transition:transform 0.3s,box-shadow 0.3s; }
+.service-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.05); }
+.service-card .sicon { width:48px; height:48px; margin:0 auto 16px; background:#f5f5f5; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.service-card .sicon svg { width:22px; height:22px; fill:#333; }
+.service-card h4 { font-size:15px; font-weight:700; margin-bottom:8px; }
+.service-card p { font-size:13px; color:#888; line-height:1.6; font-weight:300; }
+
+.testimonial-carousel { position:relative; max-width:700px; margin:0 auto; overflow:hidden; }
+.testimonial-track { display:flex; transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
+.testimonial-slide { flex:0 0 100%; padding:0 10px; }
+.testimonial-card { background:#F8F8F8; border-radius:16px; padding:40px 36px; border:1px solid #eee; text-align:center; }
+.testimonial-card .stars { display:flex; gap:4px; justify-content:center; margin-bottom:20px; }
+.testimonial-card .stars svg { width:18px; height:18px; fill:#f5a623; }
+.testimonial-card .stars svg.empty { fill:#e0e0e0; }
+.testimonial-card p { font-size:16px; color:#555; line-height:1.8; font-weight:300; font-style:italic; margin-bottom:24px; max-width:560px; margin-left:auto; margin-right:auto; }
+.testimonial-card .author strong { display:block; font-size:14px; font-weight:700; color:#111; }
+.testimonial-card .author span { font-size:12px; color:#999; }
+.testimonial-dots { display:flex; justify-content:center; gap:8px; margin-top:24px; }
+.testimonial-dots span { width:8px; height:8px; border-radius:50%; background:rgba(0,0,0,0.12); cursor:pointer; transition:background 0.3s,transform 0.3s; }
+.testimonial-dots span.active { background:#111; transform:scale(1.3); }
+
+.features-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.feat-card { background:#fff; border-radius:16px; padding:32px 24px; border:1px solid #eee; text-align:center; transition:transform 0.3s,box-shadow 0.3s; }
+.feat-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.05); }
+.feat-card .f-icon { width:48px; height:48px; margin:0 auto 16px; background:#f5f5f5; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.feat-card .f-icon svg { width:22px; height:22px; fill:#333; }
+.feat-card h4 { font-size:15px; font-weight:700; margin-bottom:8px; }
+.feat-card p { font-size:13px; color:#888; line-height:1.6; font-weight:300; }
+
+.newsletter-wrap { text-align:center; max-width:520px; margin:0 auto; }
+.newsletter-wrap h3 { font-size:28px; font-weight:800; letter-spacing:-0.5px; margin-bottom:10px; }
+.newsletter-wrap p { font-size:14px; color:#999; margin-bottom:30px; font-weight:300; }
+.newsletter-wrap .form { display:flex; gap:10px; justify-content:center; }
+.newsletter-wrap .form input { flex:1; padding:14px 20px; border:1px solid #e0e0e0; border-radius:100px; font-size:14px; font-family:inherit; outline:none; background:#fff; transition:border 0.2s; }
+.newsletter-wrap .form input:focus { border-color:#111; }
+.newsletter-wrap .form button { padding:14px 32px; border-radius:100px; border:none; background:#111; color:#fff; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:background 0.3s; }
+.newsletter-wrap .form button:hover { background:#333; }
+
+/* Detail popup */
+.detail-overlay { position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.4); visibility:hidden; opacity:0; transition:opacity 0.3s,visibility 0.3s; display:flex; align-items:center; justify-content:center; }
+.detail-overlay.open { visibility:visible; opacity:1; }
+.detail-panel { background:#fff; border-radius:20px; max-width:900px; width:90vw; max-height:85vh; overflow-y:auto; padding:40px; position:relative; }
+.detail-close { position:absolute; top:16px; right:20px; background:none; border:none; font-size:24px; cursor:pointer; color:#999; transition:color 0.2s; z-index:2; }
+.detail-close:hover { color:#111; }
+.detail-layout { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+.detail-img img { width:100%; border-radius:12px; display:block; }
+.detail-brand { font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#999; margin-bottom:4px; }
+.detail-info h2 { font-size:24px; font-weight:800; letter-spacing:-0.5px; margin-bottom:4px; }
+.detail-sub { font-size:13px; color:#999; font-weight:300; margin-bottom:16px; }
+.detail-info p { font-size:14px; color:#666; line-height:1.7; font-weight:300; margin-bottom:20px; }
+.detail-info ul { list-style:none; padding:0; margin-bottom:24px; }
+.detail-info ul li { font-size:13px; color:#555; padding:8px 0; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; gap:8px; }
+.detail-info ul li::before { content:''; width:4px; height:4px; background:#ccc; border-radius:50%; flex-shrink:0; }
+.detail-actions { display:flex; gap:12px; flex-wrap:wrap; }
+.detail-actions a, .detail-actions button { padding:12px 24px; border-radius:100px; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.3s; text-decoration:none; border:none; }
+.detail-actions .wa-btn { background:#25D366; color:#fff; }
+.detail-actions .wa-btn:hover { background:#1da851; }
+.detail-actions button:not(.wa-btn) { background:#f0f0f0; color:#111; }
+.detail-actions button:not(.wa-btn):hover { background:#e0e0e0; }
+
+/* Responsive */
+@media (max-width:1024px) {
+  .header { left:20px; right:20px; }
+  .header-center { display:none; }
+  .hamburger { display:flex; }
+  .hero-image-wrap { width:280px; height:280px; }
+  .hero-ring { width:400px; height:400px; }
+  .hero-ring::before { inset:-8px; }
+  .hero-ring-outer { width:500px; height:500px; }
+  .hero-ring-glow { width:360px; height:360px; }
+  .hero-text { bottom:40px; left:30px; }
+}
+@media (max-width:768px) {
+  .header { top:6px; left:12px; right:12px; padding:8px; border-radius:30px; }
+  .header-left .logo-img { height:32px; }
+  .header-center { display:none; }
+  .header-right .request-btn { display:none; }
+  .hamburger { display:flex; }
+  .popup-panel { padding:40px 24px; }
+  .hero-image-wrap { width:240px; height:240px; }
+  .hero-ring { width:320px; height:320px; }
+  .hero-ring::before { inset:-6px; }
+  .hero-ring-outer { width:400px; height:400px; }
+  .hero-ring-glow { width:280px; height:280px; }
+  .hero-text { bottom:70px; left:20px; }
+  .hero-text h1 { font-size:32px; }
+  .hero-text p { font-size:13px; }
+  .hero-text .brand { font-size:10px; letter-spacing:2px; }
+  .hero-text .badge { font-size:10px; padding:3px 10px; }
+  .hero-text .feature { font-size:11px; }
+  .scroll-down { bottom:16px; }
+  .section { padding:60px 20px; }
+  .section h2 { font-size:26px; }
+  .featured-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .features-grid { grid-template-columns:repeat(2,1fr); gap:16px; }
+  .newsletter-wrap .form { flex-direction:column; }
+  .detail-layout { grid-template-columns:1fr; gap:20px; }
+  .detail-panel { padding:24px; }
+  .footer-inner { grid-template-columns:1fr; gap:30px; }
+  footer { padding:50px 20px 0; }
+}
+@media (max-width:480px) {
+  .header { top:4px; left:8px; right:8px; padding:6px; border-radius:24px; }
+  .header-left .logo-img { height:26px; }
+  .hero-image-wrap { width:180px; height:180px; }
+  .hero-ring { width:240px; height:240px; }
+  .hero-ring::before { inset:-5px; }
+  .hero-ring-outer { width:300px; height:300px; }
+  .hero-ring-glow { width:220px; height:220px; }
+  .hero-text { bottom:50px; left:12px; }
+  .hero-text h1 { font-size:24px; }
+  .hero-text p { font-size:12px; }
+  .featured-grid { grid-template-columns:1fr; }
+  .services-grid { grid-template-columns:1fr; }
+}
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="loader-wrap">
+      <div class="loader-ring"></div>
+      <img class="loader-logo" src="imgs/general/logo-black.png" alt="Recool" />
+    </div>
+  </div>
+
+  <div id="app">
+    <!-- HEADER -->
+    <div id="header">
+      <div class="header">
+        <div class="header-left">
+          <a href="index.html"><img class="logo-img" src="imgs/general/logo-black.png" alt="Recool" /></a>
+        </div>
+        <div class="header-center">
+          <a href="index.html" class="active">Home</a>
+          <a href="gallery.html">Collections</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="header-right">
+          <button class="request-btn" id="requestBtn">Request</button>
+          <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <div class="menu-overlay" id="menuOverlay"></div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="gallery.html">Collections</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a class="request-link" id="menuRequest">Request</a>
+      </div>
+    </div>
+
+    <!-- PAGE CONTENT (HOME) -->
+    <div id="pageContent">
+      <div class="hero-stage">
+        <div class="hero-ring-glow"></div>
+        <div class="hero-ring-outer"></div>
+        <div class="hero-ring"></div>
+        <div class="hero-image-wrap">
+          <img id="heroImage" src="" alt="" />
+        </div>
+      </div>
+
+      <div class="hero-text" id="heroText">
+        <div class="brand" id="heroBrand"></div>
+        <div class="badge" id="heroBadge"></div>
+        <h1 id="heroTitle"></h1>
+        <p id="heroDesc"></p>
+        <div class="feature" id="heroFeature"></div>
+        <strong style="font-size:28px;font-weight:700;color:#111;display:block;margin-top:12px;" id="heroPrice"></strong>
+      </div>
+
+      <div class="scroll-down"><span>Scroll</span><div class="line"></div></div>
+      <div class="hero-spacer"></div>
+
+      <section class="section" id="featured">
+        <div class="section-inner">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;">
+            <div><h2>Featured Products</h2><p class="subtitle" style="margin-bottom:0;">Curated selection of our latest drops.</p></div>
+            <a href="gallery.html" style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#111;text-decoration:none;white-space:nowrap;border-bottom:2px solid #111;padding-bottom:2px;">View All →</a>
+          </div>
+          <div class="featured-grid" id="featuredGrid"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-inner">
+          <h2>Why Recool</h2>
+          <p class="subtitle">Everything we do is built around your experience.</p>
+          <div class="services-grid" id="servicesGrid"></div>
+        </div>
+      </section>
+
+      <section class="section" style="background:#fff;">
+        <div class="section-inner">
+          <h2>What People Say</h2>
+          <p class="subtitle">Real words from real people who wear Recool.</p>
+          <div class="testimonial-carousel">
+            <div class="testimonial-track" id="testimonialTrack"></div>
+            <div class="testimonial-dots" id="testimonialDots"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="background:#F8F8F8;">
+        <div class="section-inner">
+          <div style="text-align:center;margin-bottom:50px;">
+            <span style="font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#999;display:block;margin-bottom:12px;">Why Recool</span>
+            <h2 style="font-size:32px;font-weight:800;letter-spacing:-1px;">Built Different</h2>
+          </div>
+          <div class="features-grid" id="featuresGrid"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-inner">
+          <div class="newsletter-wrap">
+            <h3>Stay in the loop</h3>
+            <p>Be the first to know about new drops, limited editions, and exclusive offers.</p>
+            <div class="form"><input type="email" placeholder="Enter your email" /><button>Subscribe</button></div>
+          </div>
+        </div>
+      </section>
+
+
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer">
+      <footer>
+        <div class="footer-inner">
+          <div class="footer-col">
+            <img class="logo-foot" src="imgs/general/logo-white.png" alt="Recool" />
+            <p>Recool is a premium footwear brand blending contemporary design with uncompromising comfort. Every pair tells a story.</p>
+            <p class="footer-quote">&#8220;Style is a way to say who you are without having to speak.&#8221;</p>
+            <div class="footer-social">
+              <a href="#" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+              <a href="#" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+              <a href="#" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+              <a href="#" target="_blank" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="gallery.html">Collections</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="faq.html">FAQ</a>
+            <a href="shipping.html">Shipping</a>
+            <a href="returns.html">Returns</a>
+            <a href="size-guide.html">Size Guide</a>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:info@recool.com">info@recool.com</a>
+            <a href="tel:+15551234567">+1 (555) 123-4567</a>
+            <p style="margin-top:12px;font-size:12px;color:#666;">123 Style Street<br />New York, NY 10001</p>
+          </div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2026 Recool. All rights reserved.</p></div>
+      </footer>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="popupOverlay"></div>
+  <div class="popup-panel" id="popupPanel">
+    <button class="close-btn" id="closePopup">✕</button>
+    <h2>Request a Call</h2>
+    <p class="sub">Interested in a product? Leave your details and we'll get back to you within 24 hours.</p>
+    <div class="form-group"><label>Full Name</label><input type="text" placeholder="John Doe" /></div>
+    <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@example.com" /></div>
+    <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+1 234 567 890" /></div>
+    <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your interest..."></textarea></div>
+    <button class="submit-btn">Send Request</button>
+  </div>
+
+  <div class="detail-overlay" id="detailOverlay">
+    <div class="detail-panel">
+      <button class="detail-close" id="detailClose">✕</button>
+      <div class="detail-layout">
+        <div class="detail-img"><img id="detailImg" src="" alt="" /></div>
+        <div class="detail-info">
+          <div class="detail-brand" id="detailBrand"></div>
+          <h2 id="detailName"></h2>
+          <div class="detail-sub" id="detailSub"></div>
+          <p id="detailDesc"></p>
+          <ul id="detailFeatures"></ul>
+          <div class="detail-actions">
+            <a class="wa-btn" id="shareWa" href="#" target="_blank">Share on WhatsApp</a>
+            <button id="copyLink">Copy Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+// ─── SVG icon sets ───
+var SVGS = {
+  facebook: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+  whatsapp: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+  twitter: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+  youtube: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>',
+  ruler: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 5v14h18V5H3zm16 12H5V7h14v10zM7 9h2v2H7V9zm0 4h2v2H7v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2zm4-4h2v2h-2V9zm0 4h2v2h-2v-2z"/></svg>',
+  palette: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10c1.38 0 2.5-1.12 2.5-2.5 0-.61-.22-1.16-.58-1.59-.36-.43-.58-.99-.58-1.58 0-1.38 1.12-2.5 2.5-2.5H17c3.31 0 6-2.69 6-6 0-4.96-4.49-9-10-9zM6.5 13c-.83 0-1.5-.67-1.5-1.5S5.67 10 6.5 10s1.5.67 1.5 1.5S7.33 13 6.5 13zm3-4C8.67 9 8 8.33 8 7.5S8.67 6 9.5 6s1.5.67 1.5 1.5S10.33 9 9.5 9zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 6 14.5 6s1.5.67 1.5 1.5S15.33 9 14.5 9zm4.5 2.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5 1.5.67 1.5 1.5z"/></svg>',
+  star: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',
+  truck: '<svg viewBox="0 0 24 24" width="22" height="22"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>'
+};
+
+// ─── Data ───
+var slidesData = [
+  { "image": "imgs/slides/shoe 1.png", "brand": "Nike",         "badge": "Sleek",          "title": "AIR MAX",    "subtitle": "DN",            "desc": "Sleek black sneaker with white swoosh, neon JUST DO IT. text, and Tuned Air cushioning units.",                                "price": "$200", "feature": "Tuned Air cushioning" },
+  { "image": "imgs/slides/8.png",      "brand": "Timberland",   "badge": "Rugged",         "title": "6-INCH",     "subtitle": "Premium",       "desc": "Rugged outdoor boots with olive-green mesh and leather, black traction outsole, and Timberland logo details.",                "price": "$210", "feature": "Waterproof membrane" },
+  { "image": "imgs/slides/9.png",      "brand": "Louis Vuitton","badge": "Luxury",         "title": "TRAINER",    "subtitle": "LV",            "desc": "Luxury low-top sneakers with white perforated leather, green overlays, LV monogram strap, and branded tag.",                   "price": "$890", "feature": "Leather upper" }
+];
+
+var productsData = [
+  { "image": "imgs/products/IMG-20260605-WA0020.jpg", "brand": "Nike",       "name": "Air Max Pulse",       "sub": "Air Max — Pulse Edition",       "desc": "Premium comfort and style, engineered for those who demand both.", "features": ["Breathable mesh upper","Lightweight cushioning sole","Padded collar for comfort","Rubber outsole for traction"] },
+  { "image": "imgs/products/IMG-20260605-WA0025.jpg", "brand": "Adidas",     "name": "Ultraboost 5X",        "sub": "Ultraboost — 5X Edition",      "desc": "Premium comfort and style, engineered for those who demand both.", "features": ["Breathable mesh upper","Lightweight cushioning sole","Padded collar for comfort","Rubber outsole for traction"] },
+  { "image": "imgs/products/IMG-20260605-WA0033.jpg", "brand": "New Balance","name": "990v6",                "sub": "990 — v6 Edition",              "desc": "Premium comfort and style, engineered for those who demand both.", "features": ["Breathable mesh upper","Lightweight cushioning sole","Padded collar for comfort","Rubber outsole for traction"] },
+  { "image": "imgs/products/IMG-20260605-WA0037.jpg", "brand": "Puma",       "name": "RS-X3 Remix",          "sub": "RS-X3 — Remix Edition",        "desc": "Premium comfort and style, engineered for those who demand both.", "features": ["Breathable mesh upper","Lightweight cushioning sole","Padded collar for comfort","Rubber outsole for traction"] }
+];
+
+var featuredData = [
+  { "pid": 0, "image": "imgs/products/IMG-20260605-WA0020.jpg", "brand": "Nike",       "name": "Air Max Pulse" },
+  { "pid": 1, "image": "imgs/products/IMG-20260605-WA0025.jpg", "brand": "Adidas",     "name": "Ultraboost 5X" },
+  { "pid": 2, "image": "imgs/products/IMG-20260605-WA0033.jpg", "brand": "New Balance","name": "990v6" },
+  { "pid": 3, "image": "imgs/products/IMG-20260605-WA0037.jpg", "brand": "Puma",       "name": "RS-X3 Remix" }
+];
+
+var servicesData = [
+  { "icon": "ruler",    "title": "Perfect Fit",      "desc": "Free custom sizing consultation to find your ideal match." },
+  { "icon": "palette",  "title": "Personal Style",   "desc": "One-on-one styling sessions curated to your taste." },
+  { "icon": "star",     "title": "VIP Access",       "desc": "Early access to limited drops and member-only releases." },
+  { "icon": "truck",    "title": "Free Shipping",    "desc": "Complimentary shipping & hassle-free 30-day returns." }
+];
+
+var testimonialsData = [
+  { "name": "Alex M.", "role": "Designer", "text": "The most comfortable sneakers I've ever owned. Every step feels like walking on clouds. The quality is unmatched.", "rating": 5 },
+  { "name": "Sam K.", "role": "Athlete", "text": "I put these through hell during training and they still look brand new. Recool durability is no joke.", "rating": 5 },
+  { "name": "Jordan P.", "role": "Collector", "text": "Been collecting sneakers for 15 years. Recool's designs are fresh, bold, and turning heads everywhere.", "rating": 4 },
+  { "name": "Taylor R.", "role": "Fashion Blogger", "text": "The attention to detail is incredible. These sneakers go with every outfit and get compliments everywhere I go.", "rating": 5 },
+  { "name": "Morgan L.", "role": "Personal Trainer", "text": "I'm on my feet 12 hours a day and these are the only shoes that keep my feet happy. Worth every penny.", "rating": 5 },
+  { "name": "Casey W.", "role": "Streetwear Enthusiast", "text": "Recool is killing the game right now. The collabs are fire and the quality beats any big brand out there.", "rating": 5 },
+  { "name": "Riley H.", "role": "Store Owner", "text": "We stock Recool in our boutique and they sell out every time. Customers keep coming back for more.", "rating": 4 },
+  { "name": "Jamie N.", "role": "Pro Skater", "text": "Tough, flexible, and great grip. These hold up to serious skateboarding abuse. Highly recommend.", "rating": 5 }
+];
+
+// ─── Loader ───
+var loader = document.getElementById('loader');
+function hideLoader() {
+  setTimeout(function() { if (loader) loader.classList.add('hidden'); }, 800);
+}
+
+// ─── Mobile nav ───
+(function() {
+  var hamburger = document.getElementById('hamburger');
+  var menu = document.getElementById('mobileMenu');
+  var overlay = document.getElementById('menuOverlay');
+  if (!hamburger || !menu || !overlay) return;
+  function openMenu() { hamburger.classList.add('open'); menu.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeMenu() { hamburger.classList.remove('open'); menu.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; }
+  hamburger.addEventListener('click', function() { menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  overlay.addEventListener('click', closeMenu);
+  menu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+})();
+
+// ─── Request popup ───
+(function() {
+  var btns = document.querySelectorAll('#requestBtn, #menuRequest');
+  var overlay = document.getElementById('popupOverlay');
+  var panel = document.getElementById('popupPanel');
+  var close = document.getElementById('closePopup');
+  if (!overlay || !panel || !close) return;
+  function open() { overlay.classList.add('open'); panel.classList.add('open'); }
+  function closeFn() { overlay.classList.remove('open'); panel.classList.remove('open'); }
+  btns.forEach(function(b) { if (b) b.addEventListener('click', function() {
+    var mm = document.getElementById('mobileMenu');
+    var mo = document.getElementById('menuOverlay');
+    if (mm) mm.classList.remove('open'); if (mo) mo.classList.remove('open'); document.body.style.overflow = '';
+    open();
+  }); });
+  close.addEventListener('click', closeFn);
+  overlay.addEventListener('click', closeFn);
+})();
+
+// ─── Home page population ───
+var c0 = slidesData[0];
+var el;
+el = document.getElementById('heroImage'); if (el) el.src = c0.image;
+el = document.getElementById('heroBrand'); if (el) el.textContent = c0.brand;
+el = document.getElementById('heroBadge'); if (el) el.textContent = c0.badge;
+el = document.getElementById('heroTitle'); if (el) el.innerHTML = c0.title + '<br /><span class="light">' + c0.subtitle + '</span>';
+el = document.getElementById('heroDesc'); if (el) el.textContent = c0.desc;
+el = document.getElementById('heroFeature'); if (el) el.textContent = c0.feature;
+el = document.getElementById('heroPrice'); if (el) el.textContent = c0.price;
+
+// Featured
+var fg = document.getElementById('featuredGrid');
+if (fg) {
+  var h3 = '';
+  featuredData.forEach(function(f, fi) {
+    var pi = f.pid;
+    h3 += '<div class="item" data-fi="' + fi + '">';
+    h3 += '<div class="img-wrap" style="position:relative;overflow:hidden;">';
+    h3 += '<img src="' + f.image + '" alt="" loading="lazy" />';
+    h3 += '<div class="overlay">';
+    h3 += '<a class="icon-btn" href="https://wa.me/?text=' + encodeURIComponent(f.brand + ' ' + f.name) + '" target="_blank" title="Share on WhatsApp">' + SVGS.whatsapp + '</a>';
+    h3 += '<button class="icon-btn" onclick="event.stopPropagation();openDetail(' + pi + ')" title="Compare">' + SVGS.facebook.replace('M24 12.073','M21 6h-2v14H5V6H3v14a2 2 0 002 2h14a2 2 0 002-2V6zM13 6h-2V2h2v4zm3-4h2v4h-2V2zM8 2H6v4h2V2z').replace('</svg>','</svg>') + '</a>';
+    h3 += '<button class="icon-btn" onclick="event.stopPropagation();copyProductLink(' + pi + ')" title="Copy Link"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></a>';
+    h3 += '</div></div><div class="info"><div class="brand">' + f.brand + '</div><div class="name">' + f.name + '</div></div></div>';
+  });
+  fg.innerHTML = h3;
+  fg.querySelectorAll('.item').forEach(function(el2) {
+    el2.addEventListener('click', function() {
+      var fi = parseInt(this.dataset.fi);
+      var fe = featuredData[fi];
+      if (fe && fe.pid !== undefined) openDetail(fe.pid);
+    });
+  });
+}
+
+// Services
+var sg = document.getElementById('servicesGrid');
+if (sg) {
+  var h4 = '';
+  servicesData.forEach(function(svc) {
+    h4 += '<div class="service-card"><div class="sicon">' + (SVGS[svc.icon] || '') + '</div><h4>' + svc.title + '</h4><p>' + svc.desc + '</p></div>';
+  });
+  sg.innerHTML = h4;
+}
+
+// Testimonials
+var tt = document.getElementById('testimonialTrack');
+var td = document.getElementById('testimonialDots');
+if (tt) {
+  var th = '';
+  testimonialsData.forEach(function(t) {
+    var stars = '';
+    for (var si = 0; si < 5; si++) { stars += '<svg viewBox="0 0 24 24" class="' + (si < t.rating ? '' : 'empty') + '" width="18" height="18"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>'; }
+    th += '<div class="testimonial-slide"><div class="testimonial-card"><div class="stars">' + stars + '</div><p>"' + t.text + '"</p><div class="author"><strong>' + t.name + '</strong><span>' + t.role + '</span></div></div></div>';
+  });
+  tt.innerHTML = th;
+  if (td) {
+    var dh2 = '';
+    testimonialsData.forEach(function(t, i) { dh2 += '<span' + (i === 0 ? ' class="active"' : '') + ' data-ti="' + i + '"></span>'; });
+    td.innerHTML = dh2;
+  }
+}
+
+// Features
+var ftg = document.getElementById('featuresGrid');
+if (ftg) {
+  ftg.innerHTML =
+    '<div class="feat-card"><div class="f-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div><h4>Premium Materials</h4><p>Top-grain leather, breathable mesh, and sustainable fabrics sourced globally.</p></div>' +
+    '<div class="feat-card"><div class="f-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><h4>Certified Quality</h4><p>Each pair undergoes 25+ quality checks before it reaches your doorstep.</p></div>' +
+    '<div class="feat-card"><div class="f-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg></div><h4>Perfect Fit</h4><p>Engineered for all-day comfort with ergonomic insoles and arch support.</p></div>' +
+    '<div class="feat-card"><div class="f-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="#111"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div><h4>30-Day Guarantee</h4><p>Love them or return them. Free shipping, no questions asked.</p></div>';
+}
+
+
+
+// ─── Testimonial carousel ───
+setTimeout(function() {
+  var slides = document.querySelectorAll('.testimonial-slide');
+  var dots = document.querySelectorAll('#testimonialDots span');
+  var track = document.getElementById('testimonialTrack');
+  var current = 0;
+  if (!slides.length || !track) return;
+  function goT(i) {
+    if (i < 0) i = slides.length - 1;
+    if (i >= slides.length) i = 0;
+    current = i;
+    track.style.transform = 'translateX(-' + (i * 100) + '%)';
+    dots.forEach(function(d) { d.classList.toggle('active', parseInt(d.dataset.ti) === i); });
+  }
+  dots.forEach(function(d) { d.addEventListener('click', function() { goT(parseInt(this.dataset.ti)); }); });
+  setInterval(function() { goT(current + 1); }, 4500);
+}, 200);
+
+
+
+// ─── Detail popup ───
+function openDetail(i) {
+  var p = productsData[i];
+  if (!p) return;
+  document.getElementById('detailImg').src = p.image;
+  document.getElementById('detailBrand').textContent = p.brand;
+  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailSub').textContent = p.sub;
+  document.getElementById('detailDesc').textContent = p.desc;
+  var fl = document.getElementById('detailFeatures');
+  if (fl) { fl.innerHTML = ''; p.features.forEach(function(f) { var li = document.createElement('li'); li.textContent = f; fl.appendChild(li); }); }
+  document.getElementById('shareWa').href = 'https://wa.me/?text=' + encodeURIComponent(p.brand + ' ' + p.name);
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  var do2 = document.getElementById('detailOverlay');
+  if (do2) do2.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyProductLink(i) {
+  var p = productsData[i];
+  navigator.clipboard.writeText(p.brand + ' ' + p.name + ' \u2014 ' + window.location.href);
+}
+
+(function() {
+  var dc = document.getElementById('detailClose');
+  var do2 = document.getElementById('detailOverlay');
+  if (dc) dc.addEventListener('click', closeDetail);
+  if (do2) do2.addEventListener('click', function(e) { if (e.target === this) closeDetail(); });
+  var cl = document.getElementById('copyLink');
+  if (cl) cl.addEventListener('click', function() {
+    var di = document.getElementById('detailImg');
+    if (di && di.src) {
+      for (var i = 0; i < productsData.length; i++) {
+        if (productsData[i].image === di.src || di.src.indexOf(productsData[i].image) > -1) {
+          copyProductLink(i); break;
+        }
+      }
+    }
+  });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDetail(); });
+})();
+
+// ─── Hide loader ───
+hideLoader();
+  </script>
+</body>
+</html>
